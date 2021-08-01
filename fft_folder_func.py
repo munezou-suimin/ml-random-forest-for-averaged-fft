@@ -164,6 +164,10 @@ def create_folder(current_path):
 	data_fft_fp1_fp2 = os.path.join(data_fft_dir, 'Fp1_Fp2')
 	confirm_folder(data_fft_fp1_fp2)
 	
+	# ----------------< Datasets >-------------------------
+	data_datasets_dir = os.path.join(current_path, 'Data', 'DataSets')
+	confirm_folder(data_datasets_dir)
+	
 	# ----------------< Image Folder >--------------------
 	image_dir = os.path.join(current_path, 'Image')
 	confirm_folder(image_dir)
