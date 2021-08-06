@@ -140,6 +140,7 @@ if __name__ == '__main__':
 	
 	# set whether fft_data is output of not.
 	fft_csv_enable = True
+	print(f"Create datasets?: {fft_csv_enable}\n")
 	
 	"""
 	----------------------------------------
@@ -162,7 +163,7 @@ if __name__ == '__main__':
 	fft_graph_enable = True
 	
 	# Flag to adjust High parameter or not
-	search_mode = True
+	search_mode = False
 	print('search_mode: {0}'.format(search_mode))
 	
 	print(
@@ -219,6 +220,9 @@ if __name__ == '__main__':
 		
 		# Flag that indicates whether or not the processing was performed only in the first processing of df_datasets.
 		df_datasets_first_flag = True
+		
+		#
+		first_process_label_flag = True
 		
 		# ---------------------< start of main routine >----------------------------
 		for file_path in edf_list:
@@ -1286,7 +1290,11 @@ if __name__ == '__main__':
 			# set file path
 			data_sets_path = os.path.join(project_root_dir, 'Data', 'DataSets', 'fft_data_sets.csv')
 			
-			df_datasets.to_csv(data_sets_path)
+			if first_process_label_flag:
+				df_datasets.to_csv(data_sets_path)
+				first_process_label_flag = False
+			else:
+				df_datasets.to_csv(data_sets_path, mode='a', header=False)
 			
 			gc.collect()
 	else:
