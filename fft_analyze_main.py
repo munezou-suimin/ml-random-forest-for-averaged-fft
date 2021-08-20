@@ -69,6 +69,8 @@ import sys
 import glob
 import time
 import gc
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
 from datetime import datetime
 import fft_folder_func as fft_folder
 import fft_siganl_func as fft_signal
@@ -88,6 +90,10 @@ import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 
 from sklearn.model_selection import train_test_split
+
+import matplotlib.pyplot as plt
+
+import seaborn as sn
 
 print(__doc__)
 
@@ -113,7 +119,7 @@ if __name__ == '__main__':
 	parameter_iqr = 1.5
 	parameter_iqr_signal = 3.0
 	
-	create_datasets_flag = True
+	create_datasets_flag = False
 	
 	"""
 	----------------------------------------
@@ -1381,9 +1387,33 @@ if __name__ == '__main__':
 		f"                       confusion matrix \n"
 		f"--------------------------------------------------------------------------------------------------\n"
 	)
+	df_predicting_label = pd.DataFrame(test_predicting_labels)
 	
+	df_predicting_label = df_predicting_label.astype(str)
+	df_predicting_label = df_predicting_label.replace('0', 'Wake')
+	df_predicting_label = df_predicting_label.replace('1', 'REM')
+	df_predicting_label = df_predicting_label.replace('2', 'NonREM1')
+	df_predicting_label = df_predicting_label.replace('3', 'NonREM2')
+	df_predicting_label = df_predicting_label.replace('4', 'NonREM3')
 	
+	test_real_reals = test_real_reals.astype(str)
+	test_real_reals = test_real_reals.replace('0', 'Wake')
+	test_real_reals = test_real_reals.replace('1', 'REM')
+	test_real_reals = test_real_reals.replace('2', 'NonREM1')
+	test_real_reals = test_real_reals.replace('3', 'NonREM2')
+	test_real_reals = test_real_reals.replace('4', 'NonREM3')
 	
+	list_real_labels = test_real_reals.values.tolist()
+	list_prediction_labels = df_predicting_label.values.tolist()
+	data = confusion_matrix(list_real_labels, list_prediction_labels)
 	
+	df_cm = pd.DataFrame(data, columns=np.unique(list_real_labels), index=np.unique(list_real_labels))
+	df_cm.index.name = 'Actual'
+	df_cm.columns.name = 'Predicted'
+	plt.figure(figsize=(10, 7))
+	sn.set(font_scale=1.4)  # for label size
+	sn.heatmap(df_cm/np.sum(df_cm), cmap="Blues", annot=True, annot_kws={"size": 16})
+	
+	plt.show()
 	
 	print("finish")
