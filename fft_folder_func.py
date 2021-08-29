@@ -187,6 +187,9 @@ def create_folder(current_path):
 	image_fft_dir = os.path.join(image_dir, 'Fft')
 	confirm_folder(image_fft_dir)
 	
+	image_confusion_dir = os.path.join(image_dir, 'Confusion')
+	confirm_folder(image_confusion_dir)
+	
 	# ------------------< Image Raw >----------------------
 	image_raw_signal_dir = os.path.join(image_raw_dir, 'Signal')
 	confirm_folder(image_raw_signal_dir)

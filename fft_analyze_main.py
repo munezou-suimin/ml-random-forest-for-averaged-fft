@@ -169,7 +169,7 @@ if __name__ == '__main__':
 	fft_graph_enable = True
 	
 	# Flag to adjust High parameter or not
-	search_mode = False
+	search_mode = True
 	print('search_mode: {0}'.format(search_mode))
 	
 	print(
@@ -1414,6 +1414,15 @@ if __name__ == '__main__':
 	sn.set(font_scale=1.4)  # for label size
 	sn.heatmap(df_cm/np.sum(df_cm), cmap="Blues", annot=True, annot_kws={"size": 16})
 	
-	plt.show()
+	store_name = os.path.join(project_root_dir, "Image", "Confusion", "confusion_matrix.png")
+	plt.savefig(store_name)
+	
+	plt.show(block=False)
+	
+	plt.pause(5)
+	
+	plt.close()
+	
+	gc.collect()
 	
 	print("finish")
